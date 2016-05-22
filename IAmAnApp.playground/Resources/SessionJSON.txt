@@ -1,0 +1,22 @@
+date = "2015-06-11";
+description = "Advanced layouts and animations are essential to your app's interface. Gain insights into group layout mechanics and the new element animation APIs introduced in WatchKit for watchOS 2. Understand how to create layouts that work well with animations and learn other techniques to add liveliness to your apps.";
+"download_hd" = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/216_hd_layout_and_animation_techniques_for_watchkit.mp4";
+"download_sd" = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/216_sd_layout_and_animation_techniques_for_watchkit.mp4";
+focus =     (
+	watchOS
+);
+id = 216;
+images =     {
+	hero = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/images/216_600x600.jpg";
+	playback = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/images/216_220x220.jpg";
+	shelf = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/images/216_734x413.jpg";
+};
+"live_streamed" = 0;
+related =     (
+);
+slides = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/216_layout_and_animation_techniques_for_watchkit.pdf";
+subtitles = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/subtitles/eng/216_sd_layout_and_animation_techniques_for_watchkit.vtt";
+title = "Layout and Animation Techniques for WatchKit";
+track = "App Frameworks";
+url = "http://devstreaming.apple.com/videos/wwdc/2015/216isrjt4ku9w4/216/hls_vod_mvp.m3u8";
+year = 2015;
