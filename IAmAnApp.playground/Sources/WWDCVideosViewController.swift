@@ -3,33 +3,33 @@ import UIKit
 
 public class WWDCVideosViewController: UITableViewController
 {
-	//MARK: Public Properties
-	
-	public let reuseIdentifier = "WWDCSessionVideoCellID"
-	
-	//MARK: Private Properties
+    //MARK: Public Properties
+    
+    public let reuseIdentifier = "WWDCSessionVideoCellID"
+    
+    //MARK: Private Properties
 
-	let viewFrame = CGRect(x: 0, y: 0, width: 320, height: 568)
-	var jsonDatasource: [SessionVideoModel] = []
+    let viewFrame = CGRect(x: 0, y: 0, width: 320, height: 568)
+    var jsonDatasource: [SessionVideoModel] = []
     var datasourceByYear: Dictionary<String, [SessionVideoModel]> = [:]
-	
-	//MARK: View Lifecycle Methods
-	
-	override public func viewDidLoad() -> Void
-	{
+    
+    //MARK: View Lifecycle Methods
+    
+    override public func viewDidLoad() -> Void
+    {
         super.viewDidLoad()
-		self.setupTableViews()
-		self.setupSubviews()
+        self.setupTableViews()
+        self.setupSubviews()
         self.setupNavigation()
         self.fetchData()
-	}
-	
+    }
+    
     //MARK: Data fetching Functions
     
     func fetchData() -> Void
     {
         let completionFunction = self.fetchCompletion
-        SessionVideosService.fetchSessionsFromServer(completionFunction)
+        SessionVideosService.fetchSessionsFromServer(completion: completionFunction)
     }
 
     func fetchCompletion(sessionObject: [SessionVideoModel]?, error: NSError?) -> Void
@@ -48,10 +48,7 @@ public class WWDCVideosViewController: UITableViewController
                 for (key, value) in zip(years, sessionsByYear) {
                     self.datasourceByYear[key] = value
                 }
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.tableView.reloadData()
-                })
+                self.tableView.reloadData()
             }
         }
         else
@@ -59,28 +56,28 @@ public class WWDCVideosViewController: UITableViewController
             print(error!.localizedDescription)
         }
     }
-	
-	//MARK: Datasource Methods
-	
-	public override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-	{
+    
+    //MARK: Datasource Methods
+    
+    public  func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
         let sectionsCount = self.datasourceByYear.keys.count
-		return sectionsCount
-	}
-	
-	public override func tableView(tableView: UITableView,
-	                               numberOfRowsInSection section: Int) -> Int
-	{
+        return sectionsCount
+    }
+    
+    public  func tableView(tableView: UITableView,
+                                   numberOfRowsInSection section: Int) -> Int
+    {
         let years = Array(self.datasourceByYear.keys)
         let year  = years[section]
         let sessionsByYear = self.datasourceByYear[year]
-		return sessionsByYear!.count
-	}
-	
-	public override func tableView(tableView: UITableView,
-	                               cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-	{
-		let cell       = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
+        return sessionsByYear!.count
+    }
+    
+    public  func tableView(tableView: UITableView,
+                                   cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell       = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath as IndexPath)
         
         let years = Array(self.datasourceByYear.keys)
         let year = years[indexPath.section]
@@ -89,26 +86,26 @@ public class WWDCVideosViewController: UITableViewController
 
         cell.textLabel?.text = title
         cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.lineBreakMode = .ByWordWrapping
-		cell.textLabel?.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
-		
-		return cell
-	}
+        cell.textLabel?.lineBreakMode = .byWordWrapping
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.subheadline)
+        
+        return cell
+    }
     
-    public override func tableView(tableView: UITableView,
+    public  func tableView(tableView: UITableView,
                                    titleForHeaderInSection section: Int) -> String?
     {
         let years = Array(self.datasourceByYear.keys)
         let sectionTitle = years[section]
         return sectionTitle
     }
-	
-	//MARK: Delegate Methods
-	
-	public override func tableView(tableView: UITableView,
-	                               didSelectRowAtIndexPath indexPath: NSIndexPath) -> Void
-	{
-		tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    
+    //MARK: Delegate Methods
+    
+    public  func tableView(tableView: UITableView,
+                                   didSelectRowAtIndexPath indexPath: NSIndexPath) -> Void
+    {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         
         let years = Array(self.datasourceByYear.keys)
         let sectionTitle = years[indexPath.section]
@@ -119,14 +116,14 @@ public class WWDCVideosViewController: UITableViewController
         self.navigationController?.pushViewController(session, animated: true)
 
         
-	}
+    }
     
     //MARK: Private setup methods
 
     func setupTableViews() -> Void
     {
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
-        self.tableView.backgroundColor = UIColor.whiteColor()
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        self.tableView.backgroundColor = UIColor.white
         self.tableView.frame = viewFrame
     }
     
@@ -137,8 +134,8 @@ public class WWDCVideosViewController: UITableViewController
     
     func setupNavigation() -> Void
     {
-        self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
     }
     
     //MARK: Private class methods
@@ -158,5 +155,5 @@ public class WWDCVideosViewController: UITableViewController
             session.dateString == year
         })
     }
-	
+    
 }

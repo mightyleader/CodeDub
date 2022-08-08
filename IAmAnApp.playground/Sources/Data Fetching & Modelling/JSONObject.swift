@@ -21,9 +21,9 @@ public enum JSONObject
     {
         do
         {
-            let json: AnyObject = try NSJSONSerialization.JSONObjectWithData(data as NSData, options: NSJSONReadingOptions.AllowFragments)
+            let json: AnyObject = try JSONSerialization.jsonObject(with: (data as NSData) as Data, options: JSONSerialization.ReadingOptions.allowFragments) as AnyObject
             
-            return wrapObjectIntoJSONObject(json)
+            return wrapObjectIntoJSONObject(objectToWrap: json)
         }
         catch
         {
@@ -107,7 +107,7 @@ public enum JSONObject
     {
         switch self
         {
-            case JSONNull:
+            case .JSONNull:
                 return true
             default:
                 return false
@@ -122,7 +122,7 @@ public enum JSONObject
                     var jsonObject: [Swift.String: JSONObject] = [:]
                     for (key,value) in dictionaryObject
                     {
-                        jsonObject[key] = JSONObject.wrapObjectIntoJSONObject(value)
+                        jsonObject[key] = JSONObject.wrapObjectIntoJSONObject(objectToWrap: value)
                     }
                     return jsonObject
                 default:
@@ -137,7 +137,7 @@ public enum JSONObject
                 case .JSONArray(let array):
                     let jsonArray = array.map(
                         {
-                            JSONObject.wrapObjectIntoJSONObject($0)
+                            JSONObject.wrapObjectIntoJSONObject(objectToWrap: $0)
                         }
                     )
                     return jsonArray
@@ -153,7 +153,7 @@ public enum JSONObject
                 case .JSONDictionary(let dictionary):
                     if let value = dictionary[index]
                     {
-                        return JSONObject.wrapObjectIntoJSONObject(value)
+                        return JSONObject.wrapObjectIntoJSONObject(objectToWrap: value)
                     }
                     fallthrough
                 default:
@@ -167,7 +167,7 @@ public enum JSONObject
             {
                 case .JSONArray(let array):
                     let castArrayValue = array[index]
-                    return JSONObject.wrapObjectIntoJSONObject(castArrayValue)
+                    return JSONObject.wrapObjectIntoJSONObject(objectToWrap: castArrayValue)
                 default:
                     return nil
             }

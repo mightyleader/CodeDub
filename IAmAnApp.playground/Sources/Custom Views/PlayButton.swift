@@ -30,11 +30,11 @@ public class PlayButton: UIButton
         self.addSubview(backingView)
         backingView.center = self.center
 
-        self.titleLabel?.textAlignment = .Center
-        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
-        self.titleLabel?.font = UIFont.systemFontOfSize(constantFontSize)
-        self.setTitle("▶︎", forState: .Normal)
-        self.userInteractionEnabled = true
+        self.titleLabel?.textAlignment = .center
+        self.setTitleColor(UIColor.white, for: [])
+        self.setTitleColor(UIColor.black, for: .highlighted)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: constantFontSize)
+        self.setTitle("▶︎", for: [])
+        self.isUserInteractionEnabled = true
     }
 }

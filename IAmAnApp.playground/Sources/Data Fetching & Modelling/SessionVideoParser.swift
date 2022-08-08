@@ -12,9 +12,9 @@ class SessionVideoParser
 {
     class func sessionVideoModelsFromJSONObject(receivedJSON: JSONObject) -> [SessionVideoModel]
     {
-		if let rootObject = receivedJSON.dictionary {
+        if let rootObject = receivedJSON.dictionary {
             //Can't chain optionals whose creation is the previous step :(
-			if let sessions: JSONObject = rootObject["sessions"] {
+            if let sessions: JSONObject = rootObject["sessions"] {
                 if let theArray = sessions.array {
                     let modelArray = theArray.map({
                         (session: JSONObject) -> SessionVideoModel in
@@ -25,8 +25,8 @@ class SessionVideoParser
                           let stream  = session.dictionary!["url"]?.string
                         {
                             //Optional Chaining only works for fields that always have a value
-                            let date = String(session.dictionary!["year"]?.int!)
-                            let id   = String(session.dictionary!["id"]?.int!)
+                            let date = String(session.dictionary!["year"]?.int! ?? 2022)
+                            let id   = String((session.dictionary!["id"]?.int!)!)
 
                             //Create the model object from JSONObject
                             let model = SessionVideoModel(sessionID: id,
@@ -43,8 +43,8 @@ class SessionVideoParser
                     
                     return modelArray
                 }
-			}
-		}
+            }
+        }
         return []
     }
     

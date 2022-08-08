@@ -9,29 +9,29 @@
 import Foundation
 
 //Publicly accessible type for the completion handler for Session Model Receiving and Parsing
-typealias SessionVideoCompletion = ((sessionObject: [SessionVideoModel], error: NSError?) -> Void)?
+typealias SessionVideoCompletion = ((_ sessionObject: [SessionVideoModel], _ error: NSError?) -> Void)?
 
 class SessionVideosService
 {
     class func fetchSessionsFromServer(completion: SessionVideoCompletion) -> Void
     {
         let url      = NSURL(string: Resources().sessionVideoURLString)
-        let request  = NSURLRequest(URL: url!)
+        let request  = NSURLRequest(url: url! as URL)
         
-        let config   = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let session  = NSURLSession(configuration: config)
+        let config   = URLSessionConfiguration.default
+        let session  = URLSession(configuration: config)
         
-        let dataTask = session.dataTaskWithRequest(request)
+        let dataTask = session.dataTask(with: request as URLRequest)
         {
-            (data: NSData?,response: NSURLResponse?, error: NSError?) -> Void in
+            (data: Data?,response: URLResponse?, error: Error?) -> Void in
              if ( data != nil )
              {
-                SessionVideosService.parseData(data!, completion: completion)
+                SessionVideosService.parseData(data: data! as NSData, completion: completion)
              }
             else
              {
                 let noSessions: [SessionVideoModel] = []
-                completion!(sessionObject: noSessions, error: error!)
+                completion!(noSessions, error! as NSError)
             }
                 
         }
@@ -43,9 +43,9 @@ class SessionVideosService
                                  completion: SessionVideoCompletion) -> Void
     {
         // parse object into models
-        let jsonObject = JSONObject.parse(data)
-        let modelsArray = SessionVideoParser.sessionVideoModelsFromJSONObject(jsonObject!)
-		completion!(sessionObject: modelsArray, error: nil)
+        let jsonObject = JSONObject.parse(data: data)
+        let modelsArray = SessionVideoParser.sessionVideoModelsFromJSONObject(receivedJSON: jsonObject!)
+        completion!(modelsArray, nil)
 
     }
 }

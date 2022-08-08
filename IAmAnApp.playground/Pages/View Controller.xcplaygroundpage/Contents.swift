@@ -1,5 +1,4 @@
-import UIKit
-import XCPlayground
+import UIKit  
 
 //: Allow the playground to continue to run in the background
 XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
@@ -9,7 +8,7 @@ let viewFrame = CGRect(x: 0, y: 0, width: 320, height: 600)
 
 //: View Controller(s)
 let simpleViewController = WWDCVideosViewController(style: .Grouped)
-let simpleNavController	 = UINavigationController(rootViewController: simpleViewController)
+let simpleNavController     = UINavigationController(rootViewController: simpleViewController)
 simpleNavController.view.frame = viewFrame
 simpleNavController.setToolbarHidden(false, animated: true)
 simpleViewController.navigationController?.setToolbarHidden(true, animated: false)

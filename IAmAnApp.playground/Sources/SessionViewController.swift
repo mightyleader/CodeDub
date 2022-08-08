@@ -5,15 +5,15 @@ public class SessionViewController: UIViewController
 {
     //MARK: Private Properties
     
-    private let scrollView = UIScrollView(frame: CGRectZero)
-    private let sessionImageView = UIImageView(frame: CGRectZero)
-    private let titleLabel = UILabel(frame: CGRectZero)
-    private let titleLabelView = UIView(frame: CGRectZero)
-    private let keywordsScrollView = UIScrollView(frame: CGRectZero)
-    private let descriptionTextView = UITextView(frame: CGRectZero)
-    private let playButton = PlayButton(frame: CGRectZero)
+    private let scrollView = UIScrollView(frame: CGRect.zero)
+    private let sessionImageView = UIImageView(frame: CGRect.zero)
+    private let titleLabel = UILabel(frame: CGRect.zero)
+    private let titleLabelView = UIView(frame: CGRect.zero)
+    private let keywordsScrollView = UIScrollView(frame: CGRect.zero)
+    private let descriptionTextView = UITextView(frame: CGRect.zero)
+    private let playButton = PlayButton(frame: CGRect.zero)
     
-    private let darkBlurEffect = SessionViewController.blurView(style: .Dark)
+    private let darkBlurEffect = SessionViewController.blurView(style: .dark)
     private let keywordFocusBadge = KeywordBadge(keyword: "• watchOS", type: KeywordType.Focus)
     private let keywordTrackBadge = KeywordBadge(keyword: "• App Frameworks", type: KeywordType.Track)
     
@@ -27,7 +27,7 @@ public class SessionViewController: UIViewController
         self.model = model
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -48,10 +48,10 @@ public class SessionViewController: UIViewController
         self.setupContent()
     }
     
-    public override func viewDidAppear(animated: Bool)
+    public override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
-        let lastSubviewMaxYValue = CGRectGetMaxY(self.descriptionTextView.frame)
+        let lastSubviewMaxYValue = self.descriptionTextView.frame.maxY
         self.scrollView.contentSize.height = lastSubviewMaxYValue
     }
     
@@ -59,12 +59,12 @@ public class SessionViewController: UIViewController
     
     @objc private func dismissMe() -> Void
     {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setupSubviews() -> Void
     {
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(sessionImageView)
         self.scrollView.addSubview(keywordsScrollView)
@@ -77,30 +77,30 @@ public class SessionViewController: UIViewController
         self.titleLabelView.addSubview(darkBlurEffect)
         self.titleLabelView.addSubview(titleLabel)
         
-        self.titleLabel.textColor = UIColor.whiteColor()
-        self.titleLabel.textAlignment = .Left
+        self.titleLabel.textColor = UIColor.white
+        self.titleLabel.textAlignment = .left
         self.titleLabel.numberOfLines = 0
-        self.titleLabel.lineBreakMode = .ByWordWrapping
-        self.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        self.titleLabel.lineBreakMode = .byWordWrapping
+        self.titleLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
     
-        self.keywordsScrollView.backgroundColor = UIColor.whiteColor()
+        self.keywordsScrollView.backgroundColor = UIColor.white
         self.keywordsScrollView.contentInset = UIEdgeInsets(top: 3,
                                                             left: 3,
                                                             bottom: 3,
                                                             right: 3)
         
-        self.setupBadges([keywordTrackBadge, keywordFocusBadge], scrollView: keywordsScrollView)
+        self.setupBadges(badges: [keywordTrackBadge, keywordFocusBadge], scrollView: keywordsScrollView)
         self.keywordsScrollView.addSubview(keywordFocusBadge)
         self.keywordsScrollView.addSubview(keywordTrackBadge)
         
-        self.descriptionTextView.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        self.descriptionTextView.textColor = UIColor.blackColor()
-        self.descriptionTextView.backgroundColor = UIColor.whiteColor()
-        self.descriptionTextView.scrollEnabled = false
+        self.descriptionTextView.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.caption1)
+        self.descriptionTextView.textColor = UIColor.black
+        self.descriptionTextView.backgroundColor = UIColor.white
+        self.descriptionTextView.isScrollEnabled = false
         
-        self.sessionImageView.image = SessionViewController.placeholderImage(placeholderName)
-        self.sessionImageView.backgroundColor = UIColor.clearColor()
-        self.sessionImageView.contentMode = .ScaleAspectFit
+        self.sessionImageView.image = SessionViewController.placeholderImage(imageName: placeholderName)
+        self.sessionImageView.backgroundColor = UIColor.clear
+        self.sessionImageView.contentMode = .scaleAspectFit
     }
     
     private func setupAutoLayout() -> Void
@@ -115,51 +115,51 @@ public class SessionViewController: UIViewController
         self.playButton.translatesAutoresizingMaskIntoConstraints = false
         
         //Scrollview
-        self.scrollView.leftAnchor.constraintEqualToAnchor(self.view.leftAnchor).active = true
-        self.scrollView.rightAnchor.constraintEqualToAnchor(self.view.rightAnchor).active = true
-        self.scrollView.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
-        self.scrollView.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+        self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
         //Session Image
-        self.sessionImageView.topAnchor.constraintEqualToAnchor(self.scrollView.topAnchor).active = true
-        self.sessionImageView.leftAnchor.constraintEqualToAnchor(self.scrollView.leftAnchor).active = true
-        self.sessionImageView.widthAnchor.constraintEqualToAnchor(self.scrollView.widthAnchor).active = true
-        self.sessionImageView.heightAnchor.constraintEqualToAnchor(self.scrollView.widthAnchor).active = true
+        self.sessionImageView.topAnchor.constraint(equalTo: self.scrollView.topAnchor).isActive = true
+        self.sessionImageView.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor).isActive = true
+        self.sessionImageView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor).isActive = true
+        self.sessionImageView.heightAnchor.constraint(equalTo: self.scrollView.widthAnchor).isActive = true
         
         //Keywords list
-        self.keywordsScrollView.leftAnchor.constraintEqualToAnchor(self.scrollView.leftAnchor).active = true
-        self.keywordsScrollView.topAnchor.constraintEqualToAnchor(self.sessionImageView.bottomAnchor).active = true
-        self.keywordsScrollView.widthAnchor.constraintEqualToAnchor(self.scrollView.widthAnchor, multiplier: 1.0).active = true
-        self.keywordsScrollView.heightAnchor.constraintGreaterThanOrEqualToConstant(30.0).active = true
+        self.keywordsScrollView.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor).isActive = true
+        self.keywordsScrollView.topAnchor.constraint(equalTo: self.sessionImageView.bottomAnchor).isActive = true
+        self.keywordsScrollView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1.0).isActive = true
+        self.keywordsScrollView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30.0).isActive = true
         
         //Description of session
-        self.descriptionTextView.leftAnchor.constraintEqualToAnchor(self.scrollView.leftAnchor).active = true
-        self.descriptionTextView.topAnchor.constraintEqualToAnchor(self.keywordsScrollView.bottomAnchor).active = true
-        self.descriptionTextView.widthAnchor.constraintEqualToAnchor(self.scrollView.widthAnchor, multiplier: 1.0).active = true
+        self.descriptionTextView.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor).isActive = true
+        self.descriptionTextView.topAnchor.constraint(equalTo: self.keywordsScrollView.bottomAnchor).isActive = true
+        self.descriptionTextView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1.0).isActive = true
 
         //Session title
-        self.titleLabel.bottomAnchor.constraintEqualToAnchor(self.titleLabelView.bottomAnchor,
-                                                             constant: -10.0) .active = true
-        self.titleLabel.leftAnchor.constraintEqualToAnchor(self.titleLabelView.leftAnchor,
-                                                           constant: 10.0).active = true
-        self.titleLabel.rightAnchor.constraintEqualToAnchor(self.titleLabelView.rightAnchor,
-                                                            constant: -10.0).active = true
-        self.titleLabelView.leftAnchor.constraintEqualToAnchor(self.sessionImageView.leftAnchor).active = true
-        self.titleLabelView.rightAnchor.constraintEqualToAnchor(self.sessionImageView.rightAnchor).active = true
-        self.titleLabelView.bottomAnchor.constraintEqualToAnchor(self.sessionImageView.bottomAnchor).active = true
-        self.titleLabelView.topAnchor.constraintEqualToAnchor(self.titleLabel.topAnchor, constant: -10.0).active = true
+        self.titleLabel.bottomAnchor.constraint(equalTo: self.titleLabelView.bottomAnchor,
+                                                             constant: -10.0) .isActive = true
+        self.titleLabel.leftAnchor.constraint(equalTo: self.titleLabelView.leftAnchor,
+                                                           constant: 10.0).isActive = true
+        self.titleLabel.rightAnchor.constraint(equalTo: self.titleLabelView.rightAnchor,
+                                                            constant: -10.0).isActive = true
+        self.titleLabelView.leftAnchor.constraint(equalTo: self.sessionImageView.leftAnchor).isActive = true
+        self.titleLabelView.rightAnchor.constraint(equalTo: self.sessionImageView.rightAnchor).isActive = true
+        self.titleLabelView.bottomAnchor.constraint(equalTo: self.sessionImageView.bottomAnchor).isActive = true
+        self.titleLabelView.topAnchor.constraint(equalTo: self.titleLabel.topAnchor, constant: -10.0).isActive = true
         self.constraintToFill(forView: darkBlurEffect, inView: titleLabelView)
         
         //Play button
-        self.playButton.centerXAnchor.constraintEqualToAnchor(self.sessionImageView.centerXAnchor).active = true
-        self.playButton.centerYAnchor.constraintEqualToAnchor(self.sessionImageView.centerYAnchor).active = true
+        self.playButton.centerXAnchor.constraint(equalTo: self.sessionImageView.centerXAnchor).isActive = true
+        self.playButton.centerYAnchor.constraint(equalTo: self.sessionImageView.centerYAnchor).isActive = true
     }
     
     private func setupContent() -> Void
     {
         if let model = self.model
         {
-            self.titleLabel.text = SessionViewController.titleFromSession(model)
+            self.titleLabel.text = SessionViewController.titleFromSession(session: model)
             self.descriptionTextView.text = model.description
             
             self.titleLabel.sizeToFit()
@@ -170,13 +170,13 @@ public class SessionViewController: UIViewController
     private func setupBadges(badges: [KeywordBadge],
                             scrollView: UIScrollView) -> Void
     {
-        var offsetOrigin = CGPointZero
+        var offsetOrigin = CGPoint.zero
         for badge in badges
         {
             badge.frame.origin = offsetOrigin
             scrollView.addSubview(badge)
             offsetOrigin.x += (badge.frame.width + 10)
-            scrollView.contentSize.width = CGRectGetMaxX(badge.frame)
+            scrollView.contentSize.width = badge.frame.maxX
         }
     }
     
@@ -199,11 +199,11 @@ public class SessionViewController: UIViewController
     
     private func setupNavigation() -> Void
     {
-        let backButton = UIBarButtonItem(barButtonSystemItem: .Done,
+        let backButton = UIBarButtonItem(barButtonSystemItem: .done,
                                          target: self,
                                          action:#selector(self.dismissMe))
         
-        backButton.tintColor = UIColor.blackColor()
+        backButton.tintColor = UIColor.black
         self.navigationItem.leftBarButtonItems = [backButton]
     }
     
@@ -212,10 +212,10 @@ public class SessionViewController: UIViewController
         forView.translatesAutoresizingMaskIntoConstraints = false
         inView.translatesAutoresizingMaskIntoConstraints = false
         
-        forView.leftAnchor.constraintEqualToAnchor(inView.leftAnchor).active = true
-        forView.rightAnchor.constraintEqualToAnchor(inView.rightAnchor).active = true
-        forView.topAnchor.constraintEqualToAnchor(inView.topAnchor).active = true
-        forView.bottomAnchor.constraintEqualToAnchor(inView.bottomAnchor).active = true
+        forView.leftAnchor.constraint(equalTo: inView.leftAnchor).isActive = true
+        forView.rightAnchor.constraint(equalTo: inView.rightAnchor).isActive = true
+        forView.topAnchor.constraint(equalTo: inView.topAnchor).isActive = true
+        forView.bottomAnchor.constraint(equalTo: inView.bottomAnchor).isActive = true
     }
     
     private func constraintToWidthAsHeight(forView forView: UIView, inView: UIView) -> Void
@@ -223,10 +223,10 @@ public class SessionViewController: UIViewController
         forView.translatesAutoresizingMaskIntoConstraints = false
         inView.translatesAutoresizingMaskIntoConstraints = false
         
-        forView.leftAnchor.constraintEqualToAnchor(inView.leftAnchor).active = true
-        forView.rightAnchor.constraintEqualToAnchor(inView.rightAnchor).active = true
-        forView.widthAnchor.constraintEqualToAnchor(inView.widthAnchor).active = true
-        forView.heightAnchor.constraintEqualToAnchor(inView.widthAnchor).active = true
+        forView.leftAnchor.constraint(equalTo: inView.leftAnchor).isActive = true
+        forView.rightAnchor.constraint(equalTo: inView.rightAnchor).isActive = true
+        forView.widthAnchor.constraint(equalTo: inView.widthAnchor).isActive = true
+        forView.heightAnchor.constraint(equalTo: inView.widthAnchor).isActive = true
     }
 
     //MARK: Private Type Methods
@@ -246,7 +246,7 @@ public class SessionViewController: UIViewController
         return UIImage(named: imageName)!
     }
     
-    private class func blurView(style style:UIBlurEffectStyle) -> UIVisualEffectView
+    private class func blurView(style style:UIBlurEffect.Style) -> UIVisualEffectView
     {
         let blurEffect = UIBlurEffect(style: style)
         let blurredView = UIVisualEffectView(effect: blurEffect)
